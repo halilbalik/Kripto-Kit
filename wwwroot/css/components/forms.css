@@ -1,0 +1,46 @@
+/* Form element styles */
+.form-control {
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.form-control:focus {
+    border-color: #64b5f6;
+    box-shadow: 0 0 0 0.25rem rgba(100, 181, 246, 0.25);
+}
+
+.form-label {
+    margin-bottom: 0.2rem;
+    font-size: 0.875rem;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+/* Input groups */
+.input-group-text {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Textareas */
+textarea.form-control {
+    min-height: 80px;
+}
+
+/* Copy buttons */
+.btn-copy {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* Alerts for forms */
+.alert {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}

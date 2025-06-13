@@ -1,0 +1,240 @@
+@{
+    ViewData["Title"] = "RSA Şifreleme";
+}
+
+<div class="text-center mb-3">
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Anahtar Çifti Oluşturma</h4>
+            </div>
+            <div class="card-body py-2">
+                <div class="mb-2">
+                    <label for="publicKey" class="form-label small">Genel Anahtar (Public Key)</label>
+                    <div class="input-group">
+                        <textarea class="form-control" id="publicKey" rows="2" readonly>@ViewBag.PublicKey</textarea>
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                            onclick="copyToClipboard('publicKey', event)">Kopyala</button>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label for="privateKey" class="form-label small">Özel Anahtar (Private Key)</label>
+                    <div class="input-group">
+                        <textarea class="form-control" id="privateKey" rows="2" readonly>@ViewBag.PrivateKey</textarea>
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                            onclick="copyToClipboard('privateKey', event)">Kopyala</button>
+                    </div>
+                </div>
+                <a asp-action="Index" class="btn btn-success">Yeni Anahtar Çifti Oluştur</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>RSA Hakkında</h4>
+            </div>
+            <div class="card-body">
+                <p class="small"><strong>RSA (Rivest-Shamir-Adleman)</strong> asimetrik bir şifreleme algoritmasıdır.
+                    İki anahtardan oluşur: genel anahtar (public key) ve özel anahtar (private key). Genel anahtar
+                    şifreleme için, özel anahtar şifre çözme için kullanılır. Bu uygulamada 2048 bit anahtar uzunluğu
+                    kullanılmaktadır. Özel anahtarın gizli tutulması çok önemlidir. Dosya şifreleme için 100 KB'dan
+                    küçük dosyalar kullanılmalıdır (büyük dosyalar için hibrit şifreleme önerilir).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs for Text and File operations -->
+<ul class="nav nav-tabs" id="cryptoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button"
+            role="tab" aria-controls="text" aria-selected="true">Metin</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file" type="button" role="tab"
+            aria-controls="file" aria-selected="false">Dosya</button>
+    </li>
+</ul>
+
+<div class="tab-content mt-3" id="cryptoTabsContent">
+    <!-- Text Operations Tab -->
+    <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Metin Şifreleme (Public Key)</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="EncryptText" method="post">
+                            <div class="mb-3">
+                                <label for="plainText" class="form-label">Şifrelenecek Metin</label>
+                                <textarea class="form-control" id="plainText" name="plainText" rows="2"
+                                    required>@ViewBag.PlainText</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="encryptPublicKey" class="form-label">Genel Anahtar (Public Key)</label>
+                                <textarea class="form-control" id="encryptPublicKey" name="publicKey" rows="2"
+                                    required>@ViewBag.PublicKey</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Şifrele</button>
+                        </form>
+
+                        @if (ViewBag.EncryptedText != null)
+                        {
+                            <div class="mt-3">
+                                <label for="encryptedResult" class="form-label">Şifreli Metin (Base64)</label>
+                                <textarea class="form-control" id="encryptedResult" rows="2"
+                                    readonly>@ViewBag.EncryptedText</textarea>
+                                <button class="btn btn-sm btn-secondary mt-2"
+                                    onclick="copyToClipboard('encryptedResult', event)">Kopyala</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Metin Şifre Çözme (Private Key)</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="DecryptText" method="post">
+                            <div class="mb-3">
+                                <label for="cipherText" class="form-label">Şifreli Metin (Base64)</label>
+                                <textarea class="form-control" id="cipherText" name="cipherText" rows="2"
+                                    required>@ViewBag.CipherText</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="decryptPrivateKey" class="form-label">Özel Anahtar (Private Key)</label>
+                                <textarea class="form-control" id="decryptPrivateKey" name="privateKey" rows="2"
+                                    required>@ViewBag.PrivateKey</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Şifre Çöz</button>
+                        </form>
+
+                        @if (ViewBag.DecryptedText != null)
+                        {
+                            <div class="mt-3">
+                                <label for="decryptedResult" class="form-label">Çözülen Metin</label>
+                                <textarea class="form-control" id="decryptedResult" rows="2"
+                                    readonly>@ViewBag.DecryptedText</textarea>
+                                <button class="btn btn-sm btn-secondary mt-2"
+                                    onclick="copyToClipboard('decryptedResult', event)">Kopyala</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Operations Tab -->
+    <div class="tab-pane fade" id="file" role="tabpanel" aria-labelledby="file-tab">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Dosya Şifreleme (Public Key)</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="EncryptFile" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="fileToEncrypt" class="form-label">Şifrelenecek Dosya</label>
+                                <input type="file" class="form-control" id="fileToEncrypt" name="file" required />
+                                <small class="text-muted">Not: Dosya boyutu 100 KB'dan küçük olmalıdır.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileEncryptPublicKey" class="form-label">Genel Anahtar (Public Key)</label>
+                                <textarea class="form-control" id="fileEncryptPublicKey" name="publicKey" rows="2"
+                                    required>@ViewBag.PublicKey</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Dosyayı Şifrele</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Dosya Şifre Çözme (Private Key)</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="DecryptFile" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="fileToDecrypt" class="form-label">Şifreli Dosya</label>
+                                <input type="file" class="form-control" id="fileToDecrypt" name="file" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileDecryptPrivateKey" class="form-label">Özel Anahtar (Private Key)</label>
+                                <textarea class="form-control" id="fileDecryptPrivateKey" name="privateKey" rows="2"
+                                    required>@ViewBag.PrivateKey</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Dosya Şifresini Çöz</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(elementId, event) {
+            var copyText = document.getElementById(elementId);
+            if (!copyText) {
+                console.error('Element not found:', elementId);
+                return;
+            }
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            navigator.clipboard.writeText(copyText.value)
+                .then(() => {
+                    var tooltip = document.createElement("div");
+                    tooltip.textContent = "Kopyalandı!";
+                    tooltip.className = "copy-feedback-tooltip";
+                    document.body.appendChild(tooltip);
+
+                    // Pozisyonu ayarla
+                    if (event && event.target) {
+                        const targetRect = event.target.getBoundingClientRect();
+                        tooltip.style.left = (targetRect.left + window.scrollX + (targetRect.width / 2) - (tooltip.offsetWidth / 2)) + "px";
+                        tooltip.style.top = (targetRect.top + window.scrollY - tooltip.offsetHeight - 8) + "px"; // 8px boşluk
+                    }
+
+                    requestAnimationFrame(() => {
+                        tooltip.classList.add("show");
+                    });
+
+                    setTimeout(function () {
+                        tooltip.classList.remove("show");
+                        setTimeout(() => {
+                            if (tooltip.parentNode) {
+                                document.body.removeChild(tooltip);
+                            }
+                        }, 200); // Transition süresi kadar (CSS'de 0.2s)
+                    }, 1000); // Görüntülenme süresi (1 saniye)
+                })
+                .catch(err => {
+                    console.error('Kopyalama başarısız: ', err);
+                });
+        }
+    </script>
+}

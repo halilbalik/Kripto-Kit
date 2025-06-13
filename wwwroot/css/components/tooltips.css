@@ -1,0 +1,20 @@
+.copy-feedback-tooltip {
+    position: fixed; /* Sayfaya göre sabit pozisyon */
+    background-color: #333; /* Koyu gri */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px; /* Yumuşak köşeler */
+    font-size: 0.875rem;
+    z-index: 1050; /* Diğer elemanların üzerinde olması için */
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: translateY(10px); /* Başlangıçta biraz aşağıda */
+    pointer-events: none; /* Tıklanabilir olmasın */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Hafif gölge */
+    white-space: nowrap; /* Tek satırda kalsın */
+}
+
+.copy-feedback-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}

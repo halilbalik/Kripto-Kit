@@ -1,0 +1,240 @@
+@{
+    ViewData["Title"] = "SHA-256 Özet";
+}
+
+<div class="text-center mb-3">
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>SHA-256 Hakkında</h4>
+            </div>
+            <div class="card-body py-2">
+                <p class="small"><strong>SHA-256 (Secure Hash Algorithm 256-bit)</strong> bir kriptografik özet
+                    fonksiyonudur. Herhangi bir boyuttaki veriyi 256 bit (32 byte) uzunluğunda sabit bir değere
+                    dönüştürür. Değişmezlik doğrulaması ve bütünlük kontrolü için kullanılır. Tek yönlü bir fonksiyondur
+                    (özet değerinden orijinal veriyi elde etmek mümkün değildir). Çarpışma direnci özelliği vardır
+                    (farklı iki verinin aynı özet değerine sahip olma olasılığı çok düşüktür). Dijital imzalar ve
+                    doğrulama işlemleri için yaygın olarak kullanılır.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Metin Özeti Hesaplama</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="ComputeHash" method="post">
+                    <div class="mb-3">
+                        <label for="input" class="form-label">Metin</label>
+                        <textarea class="form-control" id="input" name="input" rows="2"
+                            required>@ViewBag.Input</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Özet Hesapla</button>
+                </form>
+
+                @if (ViewBag.Hash != null)
+                {
+                    <div class="mt-3">
+                        <label for="hashResult" class="form-label">SHA-256 Özeti</label>
+                        <input type="text" class="form-control" id="hashResult" value="@ViewBag.Hash" readonly />
+                        <button class="btn btn-sm btn-secondary mt-2"
+                            onclick="copyToClipboard('hashResult', event)">Kopyala</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Metin Özeti Doğrulama</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="VerifyTextHash" method="post">
+                    <div class="mb-3">
+                        <label for="verificationInput" class="form-label">Doğrulanacak Metin</label>
+                        <textarea class="form-control" id="verificationInput" name="verificationInput" rows="2"
+                            required>@ViewBag.VerificationInput</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="expectedTextHash" class="form-label">Beklenen SHA-256 Özeti</label>
+                        <input type="text" class="form-control" id="expectedTextHash" name="expectedTextHash"
+                            value="@ViewBag.ExpectedTextHash" required />
+                    </div>
+                    <button type="submit" class="btn btn-info">Metin Özetini Doğrula</button>
+                </form>
+
+                @if (ViewBag.IsTextMatch != null)
+                {
+                    <div class="mt-3">
+                        <div class="mb-2">
+                            <label class="form-label">Girilen Metin:</label>
+                            <textarea class="form-control" rows="2" readonly>@ViewBag.VerificationInput</textarea>
+                        </div>
+                        <div class="mb-2">
+                            <label for="verifyExpectedTextHash" class="form-label">Beklenen Özet</label>
+                            <input type="text" class="form-control" id="verifyExpectedTextHash"
+                                value="@ViewBag.ExpectedTextHash" readonly />
+                        </div>
+                        <div class="mb-2">
+                            <label for="verifyActualTextHash" class="form-label">Hesaplanan Özet</label>
+                            <input type="text" class="form-control" id="verifyActualTextHash"
+                                value="@ViewBag.ActualTextHash" readonly />
+                        </div>
+                        <div class="alert @(ViewBag.IsTextMatch ? "alert-success" : "alert-danger") mt-2">
+                            @if (ViewBag.IsTextMatch)
+                            {
+                                <i class="bi bi-check-circle-fill"></i> <strong>Doğrulama Başarılı!</strong> <text>Özetler
+                                    eşleşiyor.</text>
+                            }
+                            else
+                            {
+                                <i class="bi bi-x-circle-fill"></i> <strong>Doğrulama Başarısız!</strong> <text>Özetler
+                                    eşleşmiyor.</text>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Dosya Özeti Hesaplama</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="ComputeFileHash" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileToHash" class="form-label">Dosya</label>
+                        <input type="file" class="form-control" id="fileToHash" name="file" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Dosya Özeti Hesapla</button>
+                </form>
+
+                @if (ViewBag.FileHash != null)
+                {
+                    <div class="mt-3">
+                        <h5>Dosya: @ViewBag.FileName</h5>
+                        <label for="fileHashResult" class="form-label">SHA-256 Özeti</label>
+                        <input type="text" class="form-control" id="fileHashResult" value="@ViewBag.FileHash" readonly />
+                        <button class="btn btn-sm btn-secondary mt-2"
+                            onclick="copyToClipboard('fileHashResult', event)">Kopyala</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Dosya Özeti Doğrulama</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="VerifyFileHash" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileToVerify" class="form-label">Dosya</label>
+                        <input type="file" class="form-control" id="fileToVerify" name="file" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="expectedHash" class="form-label">Beklenen SHA-256 Özeti</label>
+                        <input type="text" class="form-control" id="expectedHash" name="expectedHash" required />
+                    </div>
+                    <button type="submit" class="btn btn-warning">Özeti Doğrula</button>
+                </form>
+
+                @if (ViewBag.IsMatch != null)
+                {
+                    <div class="mt-3">
+                        <h5>Dosya: @ViewBag.FileName</h5>
+                        <div class="mb-2">
+                            <label for="verifyExpectedHash" class="form-label">Beklenen Özet</label>
+                            <input type="text" class="form-control" id="verifyExpectedHash" value="@ViewBag.ExpectedHash"
+                                readonly />
+                        </div>
+                        <div class="mb-2">
+                            <label for="verifyActualHash" class="form-label">Hesaplanan Özet</label>
+                            <input type="text" class="form-control" id="verifyActualHash" value="@ViewBag.ActualHash"
+                                readonly />
+                        </div>
+                        <div class="alert @(ViewBag.IsMatch ? "alert-success" : "alert-danger")">
+                            @if (ViewBag.IsMatch)
+                            {
+                                <i class="bi bi-check-circle-fill"></i> <strong>Doğrulama Başarılı!</strong>
+                            }
+                            else
+                            {
+                                <i class="bi bi-x-circle-fill"></i> <strong>Doğrulama Başarısız!</strong>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(elementId, event) {
+            var copyText = document.getElementById(elementId);
+            if (!copyText) {
+                console.error('Element not found:', elementId);
+                return;
+            }
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            navigator.clipboard.writeText(copyText.value)
+                .then(() => {
+                    var tooltip = document.createElement("div");
+                    tooltip.textContent = "Kopyalandı!";
+                    tooltip.className = "copy-feedback-tooltip";
+                    document.body.appendChild(tooltip);
+
+                    // Pozisyonu ayarla
+                    if (event && event.target) {
+                        const targetRect = event.target.getBoundingClientRect();
+                        tooltip.style.left = (targetRect.left + window.scrollX + (targetRect.width / 2) - (tooltip.offsetWidth / 2)) + "px";
+                        tooltip.style.top = (targetRect.top + window.scrollY - tooltip.offsetHeight - 8) + "px"; // 8px boşluk
+                    }
+
+                    requestAnimationFrame(() => {
+                        tooltip.classList.add("show");
+                    });
+
+                    setTimeout(function () {
+                        tooltip.classList.remove("show");
+                        setTimeout(() => {
+                            if (tooltip.parentNode) {
+                                document.body.removeChild(tooltip);
+                            }
+                        }, 200); // Transition süresi kadar (CSS'de 0.2s)
+                    }, 1000); // Görüntülenme süresi (1 saniye)
+                })
+                .catch(err => {
+                    console.error('Kopyalama başarısız: ', err);
+                });
+        }
+    </script>
+}

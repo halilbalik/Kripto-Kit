@@ -1,0 +1,258 @@
+@{
+    ViewData["Title"] = "AES Şifreleme";
+}
+
+<div class="text-center mb-3">
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Anahtar Oluşturma</h4>
+            </div>
+            <div class="card-body py-2">
+                <div class="mb-2">
+                    <label for="key" class="form-label small">Anahtar (Base64)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="key" value="@ViewBag.Key" readonly />
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                            onclick="copyToClipboard('key', event)">Kopyala</button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="iv" class="form-label">IV (Base64)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="iv" value="@ViewBag.IV" readonly />
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                            onclick="copyToClipboard('iv', event)">Kopyala</button>
+                    </div>
+                </div>
+                <a asp-action="Index" class="btn btn-primary">Yeni Anahtar Oluştur</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>AES Hakkında</h4>
+            </div>
+            <div class="card-body">
+                <p class="small">Advanced Encryption Standard (AES), 128 bitlik blokları şifreleyen simetrik bir
+                    algoritmadır. Bu uygulamada 256 bit anahtar uzunluğu ve CBC (Cipher Block Chaining) modu
+                    kullanılmaktadır, bu nedenle bir IV (Initialization Vector) gereklidir. Hem anahtar hem de IV
+                    güvenli bir şekilde saklanmalıdır.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs for Text and File operations -->
+<ul class="nav nav-tabs" id="cryptoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button"
+            role="tab" aria-controls="text" aria-selected="true">Metin</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file" type="button" role="tab"
+            aria-controls="file" aria-selected="false">Dosya</button>
+    </li>
+</ul>
+
+<div class="tab-content mt-3" id="cryptoTabsContent">
+    <!-- Text Operations Tab -->
+    <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Metin Şifreleme</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="EncryptText" method="post">
+                            <div class="mb-3">
+                                <label for="plainText" class="form-label">Şifrelenecek Metin</label>
+                                <textarea class="form-control" id="plainText" name="plainText" rows="2"
+                                    required>@ViewBag.PlainText</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="encryptKey" class="form-label">Anahtar (Base64)</label>
+                                <input type="text" class="form-control" id="encryptKey" name="key" value="@ViewBag.Key"
+                                    required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="encryptIV" class="form-label">IV (Base64)</label>
+                                <input type="text" class="form-control" id="encryptIV" name="iv" value="@ViewBag.IV"
+                                    required />
+                            </div>
+                            <button type="submit" class="btn btn-success">Şifrele</button>
+                        </form>
+
+                        @if (ViewBag.EncryptedText != null)
+                        {
+                            <div class="mt-3">
+                                <label for="encryptedResult" class="form-label">Şifreli Metin (Base64)</label>
+                                <textarea class="form-control" id="encryptedResult" rows="2"
+                                    readonly>@ViewBag.EncryptedText</textarea>
+                                <button class="btn btn-sm btn-secondary mt-2"
+                                    onclick="copyToClipboard('encryptedResult', event)">Kopyala</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Metin Şifre Çözme</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="DecryptText" method="post">
+                            <div class="mb-3">
+                                <label for="cipherText" class="form-label">Şifreli Metin (Base64)</label>
+                                <textarea class="form-control" id="cipherText" name="cipherText" rows="2"
+                                    required>@ViewBag.CipherText</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="decryptKey" class="form-label">Anahtar (Base64)</label>
+                                <input type="text" class="form-control" id="decryptKey" name="key" value="@ViewBag.Key"
+                                    required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="decryptIV" class="form-label">IV (Base64)</label>
+                                <input type="text" class="form-control" id="decryptIV" name="iv" value="@ViewBag.IV"
+                                    required />
+                            </div>
+                            <button type="submit" class="btn btn-warning">Şifre Çöz</button>
+                        </form>
+
+                        @if (ViewBag.DecryptedText != null)
+                        {
+                            <div class="mt-3">
+                                <label for="decryptedResult" class="form-label">Çözülen Metin</label>
+                                <textarea class="form-control" id="decryptedResult" rows="2"
+                                    readonly>@ViewBag.DecryptedText</textarea>
+                                <button class="btn btn-sm btn-secondary mt-2"
+                                    onclick="copyToClipboard('decryptedResult', event)">Kopyala</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Operations Tab -->
+    <div class="tab-pane fade" id="file" role="tabpanel" aria-labelledby="file-tab">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Dosya Şifreleme</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="EncryptFile" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="fileToEncrypt" class="form-label">Şifrelenecek Dosya</label>
+                                <input type="file" class="form-control" id="fileToEncrypt" name="file" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileEncryptKey" class="form-label">Anahtar (Base64)</label>
+                                <input type="text" class="form-control" id="fileEncryptKey" name="key"
+                                    value="@ViewBag.Key" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileEncryptIV" class="form-label">IV (Base64)</label>
+                                <input type="text" class="form-control" id="fileEncryptIV" name="iv" value="@ViewBag.IV"
+                                    required />
+                            </div>
+                            <button type="submit" class="btn btn-success">Dosyayı Şifrele</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Dosya Şifre Çözme</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="DecryptFile" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="fileToDecrypt" class="form-label">Şifreli Dosya</label>
+                                <input type="file" class="form-control" id="fileToDecrypt" name="file" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileDecryptKey" class="form-label">Anahtar (Base64)</label>
+                                <input type="text" class="form-control" id="fileDecryptKey" name="key"
+                                    value="@ViewBag.Key" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileDecryptIV" class="form-label">IV (Base64)</label>
+                                <input type="text" class="form-control" id="fileDecryptIV" name="iv" value="@ViewBag.IV"
+                                    required />
+                            </div>
+                            <button type="submit" class="btn btn-warning">Dosya Şifresini Çöz</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(elementId, event) {
+            var copyText = document.getElementById(elementId);
+            if (!copyText) {
+                console.error('Element not found:', elementId);
+                return;
+            }
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            navigator.clipboard.writeText(copyText.value)
+                .then(() => {
+                    var tooltip = document.createElement("div");
+                    tooltip.textContent = "Kopyalandı!";
+                    tooltip.className = "copy-feedback-tooltip";
+                    document.body.appendChild(tooltip);
+
+                    // Pozisyonu ayarla
+                    if (event && event.target) {
+                        const targetRect = event.target.getBoundingClientRect();
+                        tooltip.style.left = (targetRect.left + window.scrollX + (targetRect.width / 2) - (tooltip.offsetWidth / 2)) + "px";
+                        tooltip.style.top = (targetRect.top + window.scrollY - tooltip.offsetHeight - 8) + "px"; // 8px boşluk
+                    }
+
+                    requestAnimationFrame(() => {
+                        tooltip.classList.add("show");
+                    });
+
+                    setTimeout(function () {
+                        tooltip.classList.remove("show");
+                        setTimeout(() => {
+                            if (tooltip.parentNode) {
+                                document.body.removeChild(tooltip);
+                            }
+                        }, 200); // Transition süresi kadar (CSS'de 0.2s)
+                    }, 1000); // Görüntülenme süresi (1 saniye)
+                })
+                .catch(err => {
+                    console.error('Kopyalama başarısız: ', err);
+                });
+        }
+    </script>
+}

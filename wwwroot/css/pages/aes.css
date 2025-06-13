@@ -1,0 +1,59 @@
+/* AES Şifreleme Sayfası Stilleri */
+
+.card-header.bg-primary {
+    background-color: #1976d2 !important;
+}
+
+.btn-primary {
+    background-color: #1976d2;
+    border-color: #1976d2;
+}
+
+.btn-primary:hover {
+    background-color: #1565c0;
+    border-color: #1565c0;
+}
+
+.text-primary {
+    color: #1976d2 !important;
+}
+
+/* Anahtar bölümü için özel stiller */
+.card.mb-4 .card-header.bg-primary h4 {
+    font-weight: 600;
+}
+
+/* AES form alanları için özel stiller */
+#plainText, #cipherText, #encryptedResult, #decryptedResult {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+#key, #iv, #encryptKey, #encryptIV, #decryptKey, #decryptIV {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+}
+
+/* Şifreleme/Şifre Çözme düğmeleri için hover efekti */
+.btn-success:hover, .btn-warning:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+    transition: all 0.2s;
+}
+
+/* Genel bilgi kartı */
+.card-header.bg-info {
+    background-color: #0288d1 !important;
+}
+
+/* Tab stilleri */
+.nav-tabs .nav-link.active {
+    color: #1976d2;
+    font-weight: 600;
+    border-bottom: 2px solid #1976d2;
+}
+
+.nav-tabs .nav-link {
+    color: #555;
+}

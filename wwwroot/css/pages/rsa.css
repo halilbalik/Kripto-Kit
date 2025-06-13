@@ -1,0 +1,59 @@
+/* RSA Şifreleme Sayfası Stilleri */
+
+.card-header.bg-success {
+    background-color: #388e3c !important;
+}
+
+.btn-success {
+    background-color: #388e3c;
+    border-color: #388e3c;
+}
+
+.btn-success:hover {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.text-success {
+    color: #388e3c !important;
+}
+
+/* Anahtar bölümü için özel stiller */
+.card.mb-4 .card-header.bg-success h4 {
+    font-weight: 600;
+}
+
+/* RSA form alanları için özel stiller */
+#plainText, #cipherText, #encryptedResult, #decryptedResult {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+#publicKey, #privateKey, #encryptPublicKey, #decryptPrivateKey {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+}
+
+/* Şifreleme/Şifre Çözme düğmeleri için hover efekti */
+.btn-success:hover, .btn-warning:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+    transition: all 0.2s;
+}
+
+/* Genel bilgi kartı */
+.card-header.bg-info {
+    background-color: #0288d1 !important;
+}
+
+/* Tab stilleri */
+.nav-tabs .nav-link.active {
+    color: #388e3c;
+    font-weight: 600;
+    border-bottom: 2px solid #388e3c;
+}
+
+.nav-tabs .nav-link {
+    color: #555;
+}

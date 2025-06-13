@@ -1,0 +1,68 @@
+/* Card styles */
+.card {
+    margin-bottom: 0.75rem;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    padding: 1.5rem;
+    font-weight: bold;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.card-header h4 {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+
+.card-title {
+    margin-bottom: 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.card-footer {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-top: none;
+}
+
+/* Icon Circle */
+.icon-circle {
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover .icon-circle {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Card color variants */
+.card-header.bg-primary {
+    background-color: #1976d2 !important;
+}
+
+.card-header.bg-success {
+    background-color: #388e3c !important;
+}
+
+.card-header.bg-info {
+    background-color: #0097a7 !important;
+}

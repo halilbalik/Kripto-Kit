@@ -1,0 +1,100 @@
+@{
+    ViewData["Title"] = "Hakkında";
+}
+
+<div class="text-center mb-3">
+    <h1 class="display-5">@ViewData["Title"]</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-3 col-md-6 mb-3 d-flex flex-column">
+        <div class="card shadow-sm border-light h-100">
+            <div class="card-header bg-gradient text-white">
+                <h4 class="my-1"><i class="bi bi-info-circle-fill me-2"></i>Proje Hakkında</h4>
+            </div>
+            <div class="card-body">
+                <p>Bu web uygulaması, temel kriptografik algoritmaların (AES, RSA, SHA-256) nasıl
+                    çalıştığını göstermek ve kullanıcıların bu algoritmaları metin ve dosyalar üzerinde
+                    interaktif
+                    olarak deneyimlemelerini sağlamak amacıyla geliştirilmiştir.</p>
+                <p><strong>Amaç:</strong> Kriptografi konusundaki farkındalığı artırmak ve temel
+                    şifreleme/özetleme
+                    prensiplerini pratik örneklerle açıklamaktır.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3 d-flex flex-column">
+        <div class="card shadow-sm border-light h-100">
+            <div class="card-header bg-gradient text-white">
+                <h4 class="my-1"><i class="bi bi-tools me-2"></i>Kullanılan Teknolojiler</h4>
+            </div>
+            <div class="card-body">
+                <p>Uygulamanın geliştirilmesinde aşağıdaki teknolojiler ve kütüphaneler kullanılmıştır:</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Backend:</strong></p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>ASP.NET Core MVC (.NET
+                                8)</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>C#</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>Frontend:</strong></p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>HTML5, CSS3, JavaScript
+                            </li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Bootstrap 5</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Bootstrap Icons</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Google Fonts (Poppins)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3 d-flex flex-column">
+        <div class="card shadow-sm border-light h-100">
+            <div class="card-header bg-gradient text-white">
+                <h4 class="my-1"><i class="bi bi-shield-lock-fill me-2"></i>Algoritmalar</h4>
+            </div>
+            <div class="card-body">
+                <p>Uygulamada yer alan kriptografik algoritmalar:</p>
+                <ul class="list-unstyled">
+                    <li>
+                        <strong class="text-info">AES (Advanced Encryption Standard):</strong> Simetrik
+                        şifreleme için
+                        kullanılır. Bu uygulamada 256-bit anahtar ve CBC modu ile çalışır.
+                    </li>
+                    <li class="mt-2">
+                        <strong class="text-info">RSA (Rivest-Shamir-Adleman):</strong> Asimetrik şifreleme için
+                        kullanılır. Genel (public) ve özel (private) anahtar çiftleri ile çalışır. Bu uygulamada
+                        2048-bit anahtar uzunluğu desteklenir.
+                    </li>
+                    <li class="mt-2">
+                        <strong class="text-info">SHA-256 (Secure Hash Algorithm 256-bit):</strong> Veri
+                        bütünlüğünü
+                        doğrulamak için kullanılan bir kriptografik özet (hash) fonksiyonudur. Girdiyi
+                        256-bitlik sabit
+                        bir çıktıya dönüştürür.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3 d-flex flex-column">
+        <div class="card shadow-sm border-light h-100">
+            <div class="card-header bg-gradient text-white">
+                <h4 class="my-1"><i class="bi bi-github me-2"></i>Geliştirici & Kaynak Kodu</h4>
+            </div>
+            <div class="card-body">
+                <p>Bu proje Halil İbrahim Balık tarafından geliştirilmiştir.</p>
+                <p>Projenin kaynak kodlarına GitHub üzerinden erişebilirsiniz. Katkıda bulunmak veya incelemek
+                    isterseniz aşağıdaki bağlantıyı kullanabilirsiniz:</p>
+                <a href="https://github.com/halilbalik" class="btn btn-dark" target="_blank"><i
+                        class="bi bi-github me-2"></i>GitHub'da Görüntüle</a>
+            </div>
+        </div>
+    </div>
+</div>

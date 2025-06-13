@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bilgi Güvenliği ve Kriptoloji", "Bilgi Güvenliği ve Kriptoloji.csproj", "{E09EEE4F-72C3-D321-156A-655D4AD848E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E09EEE4F-72C3-D321-156A-655D4AD848E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09EEE4F-72C3-D321-156A-655D4AD848E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09EEE4F-72C3-D321-156A-655D4AD848E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09EEE4F-72C3-D321-156A-655D4AD848E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68DABFF3-023B-41B6-BA46-933EB4FD873D}
+	EndGlobalSection
+EndGlobal

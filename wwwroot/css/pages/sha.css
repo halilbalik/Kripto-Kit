@@ -1,0 +1,68 @@
+/* SHA-256 Özet Sayfası Stilleri */
+
+.card-header.bg-info {
+    background-color: #0097a7 !important;
+}
+
+.btn-info {
+    background-color: #0097a7;
+    border-color: #0097a7;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #00838f;
+    border-color: #00838f;
+    color: white;
+}
+
+.text-info {
+    color: #0097a7 !important;
+}
+
+/* Özet sonuç alanları için özel stiller */
+#hashResult, #fileHashResult, #verifyExpectedHash, #verifyActualHash {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+}
+
+/* Başlıklar için özel stiller */
+.card.mb-4 .card-header h4 {
+    font-weight: 600;
+}
+
+/* Form giriş alanları için özel stiller */
+#input {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+/* Butonlar için hover efekti */
+.btn-primary:hover, .btn-success:hover, .btn-warning:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+    transition: all 0.2s;
+}
+
+/* Uyarı kutuları için özel stiller */
+.alert-success {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    border-color: #ffcdd2;
+    color: #c62828;
+}
+
+/* Doğrulama sonuç ikonları */
+.bi-check-circle-fill {
+    color: #2e7d32;
+}
+
+.bi-x-circle-fill {
+    color: #c62828;
+}

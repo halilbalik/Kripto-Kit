@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold">Hoş Geldiniz!</h1>
+    <p class="lead text-muted mb-3">Modern kriptografi algoritmalarını keşfedin ve deneyin.</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col">
+        <div class="card h-100 shadow-sm border-light mb-3">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title aes-title"><i class="bi bi-lock-fill me-2"></i>AES Şifreleme</h5>
+                <p class="card-text small flex-grow-1">Metin ve dosyalarınızı endüstri standardı AES algoritması ile
+                    güvenli bir şekilde şifreleyin ve şifrelerini çözün.</p>
+                <ul class="list-unstyled mt-auto mb-0 small">
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>256-bit anahtar desteği
+                    </li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>CBC modu ve IV kullanımı
+                    </li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Base64 formatında anahtar
+                        ve veri</li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0">
+                <a asp-controller="AES" asp-action="Index" class="btn btn-outline-primary btn-sm w-100">AES'e Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-light mb-3">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title rsa-title"><i class="bi bi-key-fill me-2"></i>RSA Şifreleme</h5>
+                <p class="card-text small flex-grow-1">Asimetrik şifrelemenin gücünü RSA ile deneyimleyin. Genel ve özel
+                    anahtar çiftleriyle verilerinizi koruyun.</p>
+                <ul class="list-unstyled mt-auto mb-0 small">
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>2048-bit anahtar desteği
+                    </li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Genel anahtar ile
+                        şifreleme</li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Özel anahtar ile şifre
+                        çözme</li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0">
+                <a asp-controller="RSA" asp-action="Index" class="btn btn-outline-success btn-sm w-100">RSA'ya Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-light mb-3">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title sha-title"><i class="bi bi-hash me-2"></i>SHA-256 Özetleme</h5>
+                <p class="card-text small flex-grow-1">Veri bütünlüğünü SHA-256 özet fonksiyonu ile doğrulayın. Metin ve
+                    dosyalarınız için benzersiz özetler oluşturun.</p>
+                <ul class="list-unstyled mt-auto mb-0 small">
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Güvenli özet algoritması
+                    </li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Veri bütünlüğü kontrolü
+                    </li>
+                    <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Dosya ve metin özetleme
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0">
+                <a asp-controller="SHA" asp-action="Index" class="btn btn-outline-info btn-sm w-100">SHA-256'ya Git</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Güvenlik İpuçları -->
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10 col-xl-9">
+        <div class="card shadow-sm border-light">
+            <div class="card-header text-center bg-light">
+                <h2 class="my-1 text-dark">
+                    <i class="bi bi-shield-check me-2 text-primary"></i>Güvenlik İpuçları
+                </h2>
+                <p class="text-muted mb-0">
+                    Verilerinizi güvende tutmak için önemli tavsiyeler
+                </p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="tip-card p-3 h-100">
+                            <i class="bi bi-shield-check text-primary fs-3 mb-2"></i>
+                            <h5>Güçlü Anahtarlar Kullanın</h5>
+                            <p class="small">En az 256-bit uzunluğunda, karmaşık anahtarlar tercih edin</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="tip-card p-3 h-100">
+                            <i class="bi bi-eye-slash text-primary fs-3 mb-2"></i>
+                            <h5>Anahtarlarınızı Koruyun</h5>
+                            <p class="small">Özel anahtarlarınızı güvenli bir yerde saklayın</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tip-card p-3 h-100">
+                            <i class="bi bi-arrow-repeat text-primary fs-3 mb-2"></i>
+                            <h5>Düzenli Güncelleyin</h5>
+                            <p class="small">Anahtarlarınızı periyodik olarak yenileyin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
